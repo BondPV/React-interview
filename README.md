@@ -65,6 +65,10 @@
 [9.5. Оптимизация React](#9.5)  
 [9.6. Как React обрабатывает пользовательские события?](#9.6)  
 
+<a id="10"/></a>
+`10.React coding task`  
+[10.1. Todo list](#10.1)  
+
 ***
 `1.JSX ` 
 <a id="1.1"/></a>
@@ -845,4 +849,63 @@ React использует синтетические события `SyntheticE
 Кроме того, React также предоставляет некоторые дополнительные функции для работы с событиями, такие как preventDefault() для отмены действия по умолчанию, stopPropagation() для остановки распространения события на другие элементы и т.д.
 
 [вернуться к списку вопросов](#9)
+***
+
+`10.React coding task`  
+<a id="10.1"></a>
+## 10.1. Todo list
+
+```js
+import React, { useState } from 'react';
+import { Todo } from './types';
+
+interface ITodo {
+  id: number;
+  text: string;
+}
+
+function TodoList() {
+  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleAddTodo = () => {
+    if (inputValue.trim() !== '') {
+      const newTodo: ITodo = {
+        id: todos.length + 1,
+        text: inputValue.trim(),
+      };
+      setTodos([...todos, newTodo]);
+      setInputValue('');
+    }
+  };
+
+  const handleDeleteTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <input type="text" value={inputValue} onChange={handleInputChange} />
+      <button onClick={handleAddTodo}>Add</button>
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id}>
+            {todo.text}
+            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default TodoList;
+```
+
+[вернуться к списку вопросов](#10)
 ***
