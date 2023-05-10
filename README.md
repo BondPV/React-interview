@@ -2,10 +2,12 @@
 
 <a id="0"/></a>
 <a id="1"/></a>
-`1.JSX `  
+`1.JSX. Components `  
 [1.1. Что такое JSX?](#1.1)  
 [1.2. Можно ли использовать React без JSX?](#1.2)  
-[1.3. "Фрагмент" (Fragment) в React](#1.3)  
+[1.3. Fragment ("фрагмент")](#1.3)  
+[1.4. Profiler ("профайлер")](#1.4)  
+[1.5. Suspense ("приостановка")](#1.5)  
 
 <a id="2"/></a>
 `2.React DOM `  
@@ -68,6 +70,7 @@
 <a id="10"/></a>
 `10.React coding task`  
 [10.1. Todo list](#10.1)  
+[10.2. Edit button color](#10.2)  
 
 ***
 `1.JSX ` 
@@ -132,7 +135,7 @@ const element = React.createElement('h1', null, 'Hello, world!');
 ***
 
 <a id="1.3"/></a>
-## 1.3. "Фрагмент" (Fragment) в React
+## 1.3. Fragment ("фрагмент")
 
 Фрагменты позволяют группировать несколько элементов вместе и возвращать их из метода `render()` без создания дополнительного элемента DOM.  
 Для использования фрагментов в React, вы можете импортировать компонент `Fragment` из библиотеки React и использовать его вместо обычного контейнера, например, `div`.
@@ -154,6 +157,52 @@ function MyComponent() {
 }
 ```
 > <>...</> - это сокращенная запись для компонента Fragment, которая была добавлена в React 16.2. Он работает так же, как и полная запись <Fragment></Fragment>, но не требует импорта компонента Fragment.
+
+`Рендеринг списка фрагментов`. Вот ситуация, когда нужно писать Fragment явно, а не использовать <></> синтаксис. Если элементы в цикле являются фрагментами, вам нужно использовать обычный синтаксис элемента JSX, чтобы предоставить атрибут key.
+
+```js
+function Blog() {
+  return posts.map(post =>
+    <Fragment key={post.id}>
+      <PostTitle title={post.title} />
+      <PostBody body={post.body} />
+    </Fragment>
+  );
+}
+```
+
+[вернуться к списку вопросов](#1)
+***
+
+<a id="1.4"/></a>
+## 1.4. Profiler ("профайлер")
+`Profiler` - это компонент React, который позволяет измерять производительность компонентов и их дочерних элементов во время разработки.  
+Он принимает два обязательных свойства: id и onRender.  
+- `id` - это строка, которая идентифицирует профилируемый компонент.  
+- `onRender` - это функция обратного вызова, которая вызывается каждый раз, когда компонент рендерится.
+
+```js
+<Profiler id="App" onRender={onRender}>
+  <App />
+</Profiler>
+
+function onRender(id, phase, actualDuration, baseDuration, startTime, commitTime) {
+  // Aggregate or log render timings...
+}
+```
+
+[вернуться к списку вопросов](#1)
+***
+
+<a id="1.5"/></a>
+## 1.5. Suspense ("приостановка")
+`Suspense` - это компонент React, который позволяет отложить рендеринг дочерних компонентов до тех пор, пока не будут загружены необходимые данные. Он принимает одно обязательное свойство `fallback`, которое определяет, что должно отображаться во время ожидания загрузки данных.
+
+```js
+<Suspense fallback={<Loading />}>
+  <Albums />
+</Suspense>
+```
 
 [вернуться к списку вопросов](#1)
 ***
@@ -905,6 +954,38 @@ function TodoList() {
 }
 
 export default TodoList;
+```
+
+[вернуться к списку вопросов](#10)
+***
+
+<a id="10.2"></a>
+## 10.2. Edit button color
+
+```js
+import React, { useState } from 'react';
+
+function ColorButton() {
+  const [isRed, setIsRed] = useState(false);
+
+  const handleClick = () => {
+    setIsRed(!isRed);
+  };
+
+  const buttonStyle = {
+    backgroundColor: isRed ? 'red' : 'blue',
+    color: 'white',
+    cursor: 'pointer',
+  };
+
+  return (
+    <button style={buttonStyle} onClick={handleClick}>
+      {isRed ? 'Красный' : 'Синий'}
+    </button>
+  );
+}
+
+export default ColorButton;
 ```
 
 [вернуться к списку вопросов](#10)
