@@ -75,6 +75,7 @@
 `10.React coding task`  
 [10.1. Todo list](#10.1)  
 [10.2. Edit button color](#10.2)  
+[10.3. Timer](#10.3)  
 
 ***
 `1.JSX ` 
@@ -1089,6 +1090,55 @@ function ColorButton() {
 }
 
 export default ColorButton;
+```
+
+[вернуться к списку вопросов](#10)
+***
+
+<a id="10.3"></a>
+## 10.3. Timer
+
+```js
+import React, { useState, useEffect } from 'react';
+
+function Timer() {
+  const [seconds, setSeconds] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    let interval = null;
+    if (isRunning) {
+      interval = setInterval(() => {
+        setSeconds(seconds => seconds + 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isRunning]);
+
+  const handleStart = () => {
+    setIsRunning(true);
+  };
+
+  const handleStop = () => {
+    setIsRunning(false);
+  };
+
+  const handleReset = () => {
+    setSeconds(0);
+    setIsRunning(false);
+  };
+
+  return (
+    <div>
+      <h1>Timer: {seconds}</h1>
+      <button onClick={handleStart}>Start</button>
+      <button onClick={handleStop}>Stop</button>
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  );
+}
+
+export default Timer;
 ```
 
 [вернуться к списку вопросов](#10)
