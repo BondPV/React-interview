@@ -56,7 +56,7 @@
 [7.5. В чем разница между context API and prop drilling?](#7.5)  
 [7.6. Когда не следует использовать context API?](#7.6)  
 [7.7. useMemo и useCallback](#7.7)  
-[7.8. useLayoutEffect]   
+[7.8. useLayoutEffect](#7.8)   
 
 <a id="8"/></a>
 `8.Redux`  
