@@ -56,7 +56,8 @@
 [7.5. В чем разница между context API and prop drilling?](#7.5)  
 [7.6. Когда не следует использовать context API?](#7.6)  
 [7.7. useMemo и useCallback](#7.7)  
-[7.8. useLayoutEffect](#7.8)   
+[7.8. useLayoutEffect](#7.8)  
+[7.9. useReducer](#7.9)  
 
 <a id="8"/></a>
 `8.Redux`  
@@ -902,6 +903,52 @@ function Tooltip() {
 
 [вернуться к списку вопросов](#7)
 ***
+
+<a id="7.9"></a>
+## 7.9. useReducer
+
+Хук `useReducer` - это функция-хук в React, которая позволяет управлять состоянием компонента через редуктор (reducer).  
+reducer- это чистая функция, которая принимает текущее состояние и действие (action), и возвращает новое состояние. 
+
+Синтаксис использования хука useReducer выглядит следующим образом:
+```jsx
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+`state` - текущее состояние  
+`dispatch` - функция, которая позволяет отправлять действия в редуктор  
+`reducer` - это функция-редуктор, которая принимает текущее состояние и действие, и возвращает новое состояние.  
+`initialState` - начальное состояние.  
+
+Пример использования хука useReducer:
+```jsx
+import React, { useReducer } from 'react';
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, { count: 0 });
+
+  return (
+    <>
+      Count: {state.count}
+      <button onClick={() => dispatch({ type: 'increment' })}>+</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>-</button>
+    </>
+  );
+}
+```
+[вернуться к списку вопросов](#7)
+***
+
 
 `8.Redux`
 <a id="8.1"></a>
