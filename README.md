@@ -8,7 +8,8 @@
 [1.3. Fragment ("фрагмент")](#1.3)  
 [1.4. Profiler ("профайлер")](#1.4)  
 [1.5. Suspense ("приостановка")](#1.5)  
-[1.6. React Fiber](#1.6  )
+[1.6. React Fiber](#1.6)  
+[1.7. Батчинг (англ. batching)](#1.7)  
 
 <a id="2"/></a>
 `2.React DOM `  
@@ -228,6 +229,35 @@ function onRender(id, phase, actualDuration, baseDuration, startTime, commitTime
 
 [вернуться к списку вопросов](#1)
 ***
+
+<a id="1.7"/></a>
+## 1.7. Батчинг (англ. batching)
+`Батчинг (англ. batching)` - это процесс сбора нескольких обновлений состояния компонента в одно обновление перед его применением.  
+В React 18 батчинг работает автоматически и не требует дополнительных настроек.
+
+`ReactDom.unstable_batchedUpdates()` - это метод, предоставляемый библиотекой ReactDom, который позволяет объединять несколько обновлений DOM в одно обновление.
+
+```jsx
+class MyComponent extends React.Component {
+  handleClick = () => {
+    ReactDOM.unstable_batchedUpdates(() => {
+      this.props.onUpdate('first update');
+      this.props.onUpdate('second update');
+      this.props.onUpdate('third update');
+    });
+  }
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>Update</button>
+    );
+  }
+}
+```
+
+[вернуться к списку вопросов](#1)
+***
+
 
 `2.React DOM `
 <a id="2.1"/></a>
