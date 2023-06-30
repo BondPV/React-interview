@@ -82,6 +82,10 @@
 [10.1. Todo list](#10.1)  
 [10.2. Edit button color](#10.2)  
 [10.3. Timer](#10.3)  
+[10.4. Slider](#10.4)  
+[10.5. Неуправляемая форма](#10.5)  
+[10.6. Управляемая форма](#10.6)  
+
 
 ***
 `1.JSX ` 
@@ -623,6 +627,10 @@ function WelcomeDialog() {
 > * `componentWillMount()` - вызывается перед тем, как компонент будет отрисован в DOM. Вместо него следует использовать методы constructor() или componentDidMount(). Метод componentWillMount() выполняется непосредственно перед рендерингом компонента как на стороне клиента, так и на стороне сервера.
 > * `componentWillReceiveProps()` - вызывается при получении новых свойств компонентом. Вместо него следует использовать методы getDerivedStateFromProps() или componentDidUpdate().
 > * `componentWillUpdate()` - вызывается перед обновлением компонента. Вместо него следует использовать методы getSnapshotBeforeUpdate() или componentDidUpdate().
+
+<p align="center">
+  <img style="width: 50%; height: auto" src="assets/hook-flow.jpg" />
+</p>
 
 [вернуться к списку вопросов](#5)
 ***
@@ -1390,6 +1398,150 @@ function Timer() {
 }
 
 export default Timer;
+```
+
+[вернуться к списку вопросов](#10)
+***
+
+<a id="10.4"></a>
+## 10.4. Slider
+
+```js
+import React, { useState } from "react";
+
+const images = [
+  "https://via.placeholder.com/150",
+  "https://via.placeholder.com/250",
+  "https://via.placeholder.com/350",
+  "https://via.placeholder.com/450",
+];
+
+const Slider = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const handleNext = () => {
+    setCurrentImage((currentImage + 1) % images.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentImage((currentImage + images.length - 1) % images.length);
+  };
+
+  return (
+    <div>
+      <button onClick={handlePrev}>Prev</button>
+      <img src={images[currentImage]} alt="slider" />
+      <button onClick={handleNext}>Next</button>
+    </div>
+  );
+};
+
+export default Slider;
+```
+
+[вернуться к списку вопросов](#10)
+***
+
+<a id="10.5"></a>
+## 10.5. Неуправляемая форма
+
+```js
+import React, { useRef } from 'react';
+
+const UncontrolledForm = () => {
+  const nameInput = useRef(null);
+  const emailInput = useRef(null);
+  const messageInput = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const formData = {
+      name: nameInput.current.value,
+      email: emailInput.current.value,
+      message: messageInput.current.value,
+    };
+    fetch('/api/contact', {
+      method: 'POST',
+      body: JSON.stringify(formData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Name:
+        <input type="text" ref={nameInput} />
+      </label>
+      <label>
+        Email:
+      <input type="email" ref={emailInput} />
+      </label>
+      <label>
+        Message:
+        <textarea ref={messageInput} />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+    );
+  };
+
+```
+
+[вернуться к списку вопросов](#10)
+***
+
+<a id="10.6"></a>
+## 10.5. Управляемая форма
+
+```js
+import React, { useState } from "react";
+
+const Form = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = { name, email, message };
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    console.log(result);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>Name:
+        <input type="text" value={name}
+          onChange={(e) => setName(e.target.value)}
+        /></label>
+      <label>Email:
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        /></label>
+      <label>Message:
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+        /></label>
+      <button type="submit">Submit</button>
+    </form>
+    );
+  };
 ```
 
 [вернуться к списку вопросов](#10)
