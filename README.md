@@ -629,7 +629,7 @@ function WelcomeDialog() {
 > * `componentWillUpdate()` - вызывается перед обновлением компонента. Вместо него следует использовать методы getSnapshotBeforeUpdate() или componentDidUpdate().
 
 <p align="center">
-  <img style="width: 50%; height: auto" src="assets/hook-flow.jpg" />
+  <img style="width: 70%; height: auto" src="assets/hook-flow.jpg" />
 </p>
 
 [вернуться к списку вопросов](#5)
